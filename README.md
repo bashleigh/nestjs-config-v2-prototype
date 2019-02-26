@@ -96,7 +96,7 @@ import {Injectable} from '@nestjs/common';
 
 Injectable()
 export class ExampleProvider {
-	constructor(private readonly @InjectConfig('my_custom_provider') config) {}
+	constructor(private readonly @InjectConfig('my_custom_token') config) {}
 }
 ```
 
