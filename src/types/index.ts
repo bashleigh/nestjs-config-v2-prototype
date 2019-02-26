@@ -1,7 +1,7 @@
-import {Type} from '@nestjs/common';
+import { Type } from '@nestjs/common';
 
 export interface ConfigInterface {
-	[s: string]: any;
+  [s: string]: any;
 }
 
 export interface DefinedConfigProvider extends ConfigInterface {
@@ -9,8 +9,7 @@ export interface DefinedConfigProvider extends ConfigInterface {
   __provide: string;
 }
 
-export interface DynamicConfigProvider extends ConfigInterface, Type<any> {
-}
+export interface DynamicConfigProvider extends ConfigInterface, Type<any> {}
 
 export declare type ConfigProvider =
   | DefinedConfigProvider

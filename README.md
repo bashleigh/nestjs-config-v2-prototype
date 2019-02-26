@@ -8,7 +8,7 @@ After creating this [proposal](https://github.com/nestjs-community/nestjs-config
 $ yarn test
 ```
 
-This prototype will hopefully enable a better solution to using the nestjs-config module and be more of a 'nest' implementation of the existing module and utilise more of the nestjs container instead of 'bunging' everyrthing into one provider thus providing a better usage of nestjs and the config module. 
+This prototype will hopefully enable a better solution to using the nestjs-config module and be more of a 'nest' implementation of the existing module and utilise more of the nestjs container instead of 'bunging' everyrthing into one provider thus providing a better usage of nestjs and the config module.
 
 ### Examples
 
@@ -16,7 +16,7 @@ This prototype will hopefully enable a better solution to using the nestjs-confi
 
 Injecting will move away from a singular module inject and enable more freely injectable providers as such
 
-##### Inject via token 
+##### Inject via token
 
 Basic objects can be injected using a token
 
@@ -32,45 +32,45 @@ export class ExampleController {
 
 ##### Inject via Type
 
-Typed classes etc can be used to inject your config 
+Typed classes etc can be used to inject your config
 
 ```typescript
 // config/my.config.class.ts
 export default class MyConfigClass {
-	public static test: string = 'hello';
+  public static test: string = 'hello';
 }
 ```
 
-```typescript 
-import {MyConfigClass} from './config/my.config.class';
-import {Injectable} from '@nestjs/common';
+```typescript
+import { MyConfigClass } from './config/my.config.class';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ExampleProvider {
-	constructor(private readonly config: MyConfigClass) {}
+  constructor(private readonly config: MyConfigClass) {}
 
-	someMethod(): string {
-		return this.config.test;
-	}
+  someMethod(): string {
+    return this.config.test;
+  }
 
-	anotherMethod(): string {
-		return this.config.get<string>('not.defined', 'default value');
-	}
+  anotherMethod(): string {
+    return this.config.get<string>('not.defined', 'default value');
+  }
 
-	getConfig(): MyConfigClass {
-		return this.config;
-	}
+  getConfig(): MyConfigClass {
+    return this.config;
+  }
 }
 ```
 
 ##### Defined tokens injection
 
-The token used can be manipulated as such 
+The token used can be manipulated as such
 
 ```typescript
 // config/my.defined.provide.ts
 export default {
-	__provide: 'my_custom_token',
+  __provide: 'my_custom_token',
 };
 ```
 
@@ -83,7 +83,7 @@ export class ExampleProvider {
 }
 ```
 
-Again the above should work with Provider types such as 
+Again the above should work with Provider types such as
 
 ```typescript
 // config/database.ts
@@ -97,23 +97,23 @@ export default class DatabaseConfig implements TypeOrmModuleOptions {
 ```
 
 ```typescript
-import {Module} from '@nestjs/common';
-import {ConfigModule} from 'nestjs-config';
-import {TypeOrmModule} from '@nestjs/typeorm';
+import { Module } from '@nestjs/common';
+import { ConfigModule } from 'nestjs-config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-	imports: [
-		ConfigModule.forRootAsync('config/**/*(!.d).{ts,js}'),
-		TypeOrmModule.forRootAsync({
-			useFactory: (config: DatabaseConfig) => config,
-			injects: [DatabaseConfig],
-		}),
-	],
+  imports: [
+    ConfigModule.forRootAsync('config/**/*(!.d).{ts,js}'),
+    TypeOrmModule.forRootAsync({
+      useFactory: (config: DatabaseConfig) => config,
+      injects: [DatabaseConfig],
+    }),
+  ],
 })
 export class ExampleModule {}
 ```
 
-Alternatively 
+Alternatively
 
 ```typescript
 // config/database.ts
@@ -125,18 +125,18 @@ export default {
 ```
 
 ```typescript
-import {Module} from '@nestjs/common';
-import {ConfigModule, configToken} from 'nestjs-config';
-import {TypeOrmModule} from '@nestjs/typeorm';
+import { Module } from '@nestjs/common';
+import { ConfigModule, configToken } from 'nestjs-config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-	imports: [
-		ConfigModule.forRootAsync('config/**/*(!.d).{ts,js}'),
-		TypeOrmModule.forRootAsync({
-			useFactory: (config) => config,
-			injects: [configToken('database')],
-		}),
-	],
+  imports: [
+    ConfigModule.forRootAsync('config/**/*(!.d).{ts,js}'),
+    TypeOrmModule.forRootAsync({
+      useFactory: config => config,
+      injects: [configToken('database')],
+    }),
+  ],
 })
 export class ExampleModule {}
 ```

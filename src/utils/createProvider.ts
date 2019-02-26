@@ -19,16 +19,20 @@ export function createProvider(
             ? configProvider.__name
             : fileName,
         );
-	
-	return isDynamicConfigProvider(configProvider) ? {
-		provide,
-		useClass: configProvider,
-	} : {
-		provide,
-		useValue: new Config(configProvider),
-	};
+
+  return isDynamicConfigProvider(configProvider)
+    ? {
+        provide,
+        useClass: configProvider,
+      }
+    : {
+        provide,
+        useValue: new Config(configProvider),
+      };
 }
 
-function isDynamicConfigProvider(configProvider: ConfigProvider): configProvider is DynamicConfigProvider {
-	return configProvider instanceof Function;
+function isDynamicConfigProvider(
+  configProvider: ConfigProvider,
+): configProvider is DynamicConfigProvider {
+  return configProvider instanceof Function;
 }
