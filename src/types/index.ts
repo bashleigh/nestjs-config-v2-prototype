@@ -1,11 +1,15 @@
-export interface DefinedConfigProvider {
-  __name?: string;
-  __provider: string;
-  [s: string]: any;
+import {Type} from '@nestjs/common';
+
+export interface ConfigInterface {
+	[s: string]: any;
 }
 
-export interface DynamicConfigProvider {
-  [s: string]: any;
+export interface DefinedConfigProvider extends ConfigInterface {
+  __name?: string;
+  __provide: string;
+}
+
+export interface DynamicConfigProvider extends ConfigInterface, Type<any> {
 }
 
 export declare type ConfigProvider =

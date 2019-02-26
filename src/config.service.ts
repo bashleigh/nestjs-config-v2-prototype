@@ -1,11 +1,20 @@
 import { Glob } from "glob";
-import {Config} from './config';
-import {createProvider} from './utils';
+import {createProvider, configToken} from './utils';
+import { Provider, } from "@nestjs/common";
+import {ModuleRef} from '@nestjs/core';
+import * as path from 'path';
+import { ConfigProvider } from "./types";
 
 export class ConfigService {
 
-	public static root(path: string = ''): string {
-		return 
+	protected static rootPath?: string;
+
+	constructor(private readonly moduleRef: ModuleRef) {}
+
+	public static root(dir: string = ''): string {
+		const rootPath =
+      this.rootPath || path.resolve(process.cwd());
+    return path.resolve(rootPath, dir);
 	}
 
   public static async getConfigFiles(glob: string): Promise<string[]> {
@@ -20,13 +29,19 @@ export class ConfigService {
 		});
 	}
 
-	public static loadFile(file: string) {
+	public static loadFile(file: string): Provider {
 		const required = require(file);
 
-		console.log('required', required.default['prototype']);
-		const provider = createProvider(required.default, file);
-
-		console.log('provider', provider);
-
+		return createProvider(required.default, file);
 	}
+
+	protected findConfigProvider(token: string): ConfigProvider | null {
+		return this.moduleRef.get(configToken(token));
+	}
+
+	// public get<T>(pattern: string | string[], value: any = undefined): T {
+	// 	// TODO find the module from the pattern
+	// 	// TODO resolve value
+	// 	// TODO return value
+	// }
 }
