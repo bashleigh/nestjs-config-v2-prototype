@@ -10,13 +10,13 @@ $ yarn test
 
 This prototype will hopefully enable a better solution to using the nestjs-config module and be more of a 'nest' implementation of the existing module and utilise more of the nestjs container instead of 'bunging' everyrthing into one provider thus providing a better usage of nestjs and the config module.
 
-### Examples
+## Examples
 
-#### Injecting
+### Injecting
 
 Injecting will move away from a singular module inject and enable more freely injectable providers as such
 
-##### Inject via token
+#### Inject via token
 
 Basic objects can be injected using a token
 
@@ -30,7 +30,7 @@ export class ExampleController {
 }
 ```
 
-##### Inject via Type
+#### Inject via Type
 
 Typed classes etc can be used to inject your config
 
@@ -63,7 +63,7 @@ export class ExampleProvider {
 }
 ```
 
-##### Defined tokens injection
+#### Defined tokens injection
 
 The token used can be manipulated as such
 
@@ -89,10 +89,11 @@ Again the above should work with Provider types such as
 // config/database.ts
 
 export default class DatabaseConfig implements TypeOrmModuleOptions {
-	public static host: process.env.TYPEORM_HOST,
-	public static port: process.env.TYPEORM_PORT,
-	public static username: process.env.TYPEORM_USERNAME,
-	public static password: process.env.TYPEORM_PASSWORD,
+  public static type: string = 'mysql';
+  public static host: process.env.TYPEORM_HOST,
+  public static port: process.env.TYPEORM_PORT,
+  public static username: process.env.TYPEORM_USERNAME,
+  public static password: process.env.TYPEORM_PASSWORD,
 }
 ```
 
@@ -113,14 +114,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 export class ExampleModule {}
 ```
 
-Alternatively
+Alternatively using no class/type
 
 ```typescript
 // config/database.ts
 export default {
-	type: 'mysql',
-	host: process.env.TYPEORM_HOST,
-	...
+  type: 'mysql',
+  host: process.env.TYPEORM_HOST,
+  ...
 }
 ```
 
@@ -140,3 +141,20 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 })
 export class ExampleModule {}
 ```
+
+By default the file name is used for the token if no `__provide` key is specified.
+
+## TODO
+
+- [ ] forRoot method
+- [ ] merging for modules
+- [ ] dotenv loading
+- [ ] resolveRootPath
+- [ ] documentation comments
+- [ ] throw exception on no default export from file? Or consider what to do if multiple exports
+- [ ] validating config types etc
+- [ ] add configService back into configModule and resolve names with references of their token 
+- [ ] add rename method etc
+- [ ] add configModuleOptions back in
+- [ ] attempt static property setting with decorator
+- [ ] attempt better parameter decorator setter
