@@ -21,18 +21,39 @@ Injecting will move away from a singular module inject and enable more freely in
 Basic objects can be injected using a token
 
 ```typescript
+// config/my_config.ts
+export default {
+  test: string = 'hello';
+}
+```
+
+```typescript
 import {InjectConfig} from 'nestjs-config';
 import {Controller} from '@nestjs/common';
 
 @Controller()
 export class ExampleController {
-  constructor(private readonly @InjectConfig('controller') config) {}
+  constructor(private readonly @InjectConfig('my_config') config) {}
+
+  someMethod(): string {
+    return this.config.test;
+  }
+
+  anotherMethod(): string {
+    return this.config.get<string>('not.defined', 'default value');
+  }
 }
 ```
 
+In the above example you'll notice that there is a method `get` on the injected config parameter. That's because all object configs are 'wrapped' in a `Config` class which provides such lodash get functionality like in the previous version of `nestjs-config`. Except now it has a type input thingy.
+
 #### Inject via Type
 
-Typed classes etc can be used to inject your config
+Typed classes etc can be used to inject your config. 
+
+In this example the class used does not come with the `get` functionality although you could extend the config class if you so wished `export default class MyConfigClass extends Config {}`.
+
+All 'types' are used as `ClassProvider`s. So they are technically injectables?
 
 ```typescript
 // config/my.config.class.ts
@@ -51,10 +72,6 @@ export class ExampleProvider {
 
   someMethod(): string {
     return this.config.test;
-  }
-
-  anotherMethod(): string {
-    return this.config.get<string>('not.defined', 'default value');
   }
 
   getConfig(): MyConfigClass {
