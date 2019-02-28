@@ -118,6 +118,7 @@ export default class DatabaseConfig implements TypeOrmModuleOptions {
 import { Module } from '@nestjs/common';
 import { ConfigModule } from 'nestjs-config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import DatabaseConfig from './config/database';
 
 @Module({
   imports: [
@@ -166,12 +167,12 @@ By default the file name is used for the token if no `__provide` key is specifie
 - [ ] forRoot method
 - [ ] merging for modules
 - [ ] dotenv loading
-- [ ] resolveRootPath
+- [x] resolveRootPath
 - [ ] documentation comments
 - [ ] throw exception on no default export from file? Or consider what to do if multiple exports
 - [ ] validating config types etc
-- [ ] add configService back into configModule and resolve names with references of their token 
-- [ ] add rename method etc
+- [x] add configService back into configModule and resolve names with references of their token 
+- [ ] add rename method etc (do I still need this with __name || __provide?)
 - [ ] add configModuleOptions back in
 - [ ] attempt static property setting with decorator
 - [ ] attempt better parameter decorator setter

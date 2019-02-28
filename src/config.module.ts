@@ -2,8 +2,18 @@ import {Module, Global, DynamicModule, Provider} from '@nestjs/common';
 import {ConfigService} from './config.service';
 
 @Global()
-@Module({})
+@Module({
+  providers: [
+    ConfigService,
+  ],
+})
 export class ConfigModule {
+  
+  public static resolveRootPath(path: string): ConfigModule {
+    ConfigService.resolveRootPath(path);
+    return this;
+  }
+
   public static forRoot(config: object): DynamicModule {
 		return {
 			module: ConfigModule,
@@ -15,10 +25,7 @@ export class ConfigModule {
 	}
 
 	public static async forRootAsync(glob: string): Promise<DynamicModule> {
-		const configs = await ConfigService.getConfigFiles(glob);
-		const providers: Provider[] = [];
-
-		configs.forEach(config => providers.push(ConfigService.loadFile(config)));
+		const providers: Provider[] = await ConfigService.createProviders(glob);
 
 		return {
 			module: ConfigModule,

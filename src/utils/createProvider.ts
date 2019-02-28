@@ -1,13 +1,17 @@
-import { Provider } from '@nestjs/common';
-import { ConfigProvider, DynamicConfigProvider } from '../types';
+import {
+  ConfigProvider,
+  DynamicConfigProvider,
+  DefinedConfigProvider,
+} from '../types';
 import { configToken } from './configToken';
 import { Config } from './../config';
 import * as path from 'path';
+import { ClassProvider, ValueProvider } from '@nestjs/common/interfaces';
 
 export function createProvider(
   configProvider: ConfigProvider,
   wholePath: string,
-): Provider {
+): ClassProvider | ValueProvider {
   const fileName = path.basename(wholePath, '.' + wholePath.split('.').pop());
   const provide =
     configProvider['prototype'] !== undefined
@@ -31,8 +35,14 @@ export function createProvider(
       };
 }
 
-function isDynamicConfigProvider(
+export function isDynamicConfigProvider(
   configProvider: ConfigProvider,
 ): configProvider is DynamicConfigProvider {
   return configProvider instanceof Function;
+}
+
+export function isDefinedConfigProvider(
+  configProvider: ConfigProvider,
+): configProvider is DefinedConfigProvider {
+  return configProvider.__name || configProvider.__provide;
 }
