@@ -45,7 +45,7 @@ export class ExampleController {
 }
 ```
 
-In the above example you'll notice that there is a method `get` on the injected config parameter. That's because all object configs are 'wrapped' in a `Config` class which provides such lodash get functionality like in the previous version of `nestjs-config`. Except now it has a type input thingy.
+In the above example you'll notice that there is a method `get` on the injected config parameter. That's because all object configs are 'wrapped' in a `Config` class which provides such lodash get functionality like in the previous version of `nestjs-config`. Except now it has a Type Parameter (**Thanks @natc ;)**).
 
 #### Inject via Type
 
@@ -161,6 +161,24 @@ export class ExampleModule {}
 ```
 
 By default the file name is used for the token if no `__provide` key is specified.
+
+### Using the ConfigService
+
+In my proposal I wasn't sure if the ConfigService still had a role within the config module. However I've managed to maintain some of the v1 functionality by utiling the moduleRef and keeping local references of the `__name`,`__provide` or file name of the provider's token being created. I'm not sure I like this functionality as it is; as a provider currently cannot be found using a ClassProvider token which is kinda sad. Would be nice but not quite sure how it would really work? Plus using the moduleRef seems a little hacky and kind of defeats the purpose of types before runtime. 
+
+```typescript
+import {Injectable} from '@nestjs/common';
+import {ConfigService} from 'nestjs-config';
+
+@Injectable()
+export class ExampleProvider {
+  constructor(private readonly configService: ConfigService) {}
+
+  someMethod(): string {
+    return this.configService.get<string>('my_config.test', 'something that doesn\'t say hello');
+  }
+}
+```
 
 ## TODO
 

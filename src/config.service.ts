@@ -91,9 +91,8 @@ export class ConfigService {
 		return Object.keys(ConfigService.tokenReferences).includes(name) ? ConfigService.tokenReferences[name] : null;
 	}
 
-	public static setReference(name: string, token: string): typeof ConfigService {
+	protected static setReference(name: string, token: string): typeof ConfigService {
 		ConfigService.tokenReferences[name] = token;
-		//console.log('ref', ConfigService.tokenReferences);
 		return this;
 	}
 
