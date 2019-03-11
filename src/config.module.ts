@@ -1,5 +1,7 @@
 import {Module, Global, DynamicModule, Provider} from '@nestjs/common';
 import {ConfigService} from './config.service';
+import { createProvider } from './utils';
+import { ConfigProvider } from './types';
 
 @Global()
 @Module({
@@ -14,13 +16,13 @@ export class ConfigModule {
     return this;
   }
 
-  public static forRoot(config: object): DynamicModule {
+  public static forRoot(config: ConfigProvider): DynamicModule {
+		const providers = [createProvider(config, '')];
+		console.log('providers', providers);
 		return {
 			module: ConfigModule,
-			providers: [
-
-			],
-			exports: [],
+			providers,
+			exports: providers,
 		};
 	}
 

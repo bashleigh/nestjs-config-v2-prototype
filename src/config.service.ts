@@ -7,12 +7,14 @@ import { ConfigProvider } from './types';
 import * as assert from 'assert';
 import { Config } from './config';
 import * as get from 'lodash.get';
+import { TOKEN_PREFIX } from './constsants';
 
 @Injectable()
 export class ConfigService {
 
 	protected static rootPath?: string;
 	protected static tokenReferences: {[s: string]: string} = {};
+	protected static mode: 'sync' | 'async' = 'sync';
 
 	constructor(private readonly moduleRef: ModuleRef) {}
 
@@ -59,6 +61,7 @@ export class ConfigService {
 	}
 
 	public static async createProviders(glob: string): Promise<Provider[]> {
+		ConfigService.mode = 'async';
 		const files = await this.getConfigFiles(glob);
 		const providers: Provider[] = [];
 		
@@ -102,9 +105,19 @@ export class ConfigService {
 	}
 
 	public get<T>(pattern: string, value: any = undefined): T | undefined {
-		const [name, ashPattern] = this.getNameAndAshPatternFromPattern(pattern);
-		const provider = this.findConfigProvider(this.resolveTokenFromName(name));
 
+		let provider: ConfigProvider | null;
+		let ashPattern: string;
+
+		if (ConfigService.mode === 'sync') {
+			provider = this.findConfigProvider(TOKEN_PREFIX);
+			ashPattern = pattern;
+		} else {
+			let name: string;
+			[name, ashPattern] = this.getNameAndAshPatternFromPattern(pattern);
+			provider = this.findConfigProvider(this.resolveTokenFromName(name));
+		}
+		
 		if (!provider) {
 			return value;
 		}
