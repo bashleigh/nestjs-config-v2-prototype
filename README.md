@@ -182,7 +182,7 @@ export class ExampleProvider {
 
 ## TODO
 
-- [ ] forRoot method
+- [x] forRoot method
 - [ ] merging for modules
 - [ ] dotenv loading
 - [x] resolveRootPath
@@ -194,3 +194,4 @@ export class ExampleProvider {
 - [ ] add configModuleOptions back in
 - [ ] attempt static property setting with decorator
 - [ ] attempt better parameter decorator setter
+- [ ] consider replacing loadash.get with ts-get
