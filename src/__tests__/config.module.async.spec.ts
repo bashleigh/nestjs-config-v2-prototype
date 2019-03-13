@@ -6,7 +6,7 @@ import { configToken } from './../index';
 import { Config } from '../config';
 import { InjectConfig } from '../decorators';
 
-describe('ConfigModule.forRootAsync', async () => {
+describe('ConfigModule.forRootAsync', () => {
   it('can instance', async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [

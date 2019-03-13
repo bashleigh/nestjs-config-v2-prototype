@@ -4,7 +4,7 @@ import { ConfigService } from '../config.service';
 import { InjectConfig } from '../decorators';
 import { Config } from '../config';
 
-describe('ConfigModule.forRoot', async () => {
+describe('ConfigModule.forRoot', () => {
   it('can instance', async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [

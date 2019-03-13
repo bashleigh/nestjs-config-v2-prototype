@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule, ConfigService } from './../index';
 import * as path from 'path';
 
-describe('ConfigModule.forRoot', async () => {
+describe('ConfigModule.forRoot', () => {
   it('ConfigService can call get with __provide reference', async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
