@@ -18,7 +18,6 @@ export class ConfigModule {
 
   public static forRoot(config: ConfigProvider): DynamicModule {
 		const providers = [createProvider(config, '')];
-		console.log('providers', providers);
 		return {
 			module: ConfigModule,
 			providers,

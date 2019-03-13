@@ -108,16 +108,20 @@ export class ConfigService {
 
 		let provider: ConfigProvider | null;
 		let ashPattern: string;
+		let name: string;
 
 		if (ConfigService.mode === 'sync') {
-			provider = this.findConfigProvider(TOKEN_PREFIX);
-			ashPattern = pattern;
+			[name, ashPattern] = this.getNameAndAshPatternFromPattern(pattern);
+			provider = this.findConfigProvider(`${TOKEN_PREFIX}${ashPattern ? name : ''}`);
+			
+			if (ashPattern === '') {
+				ashPattern = name;
+			}
 		} else {
-			let name: string;
 			[name, ashPattern] = this.getNameAndAshPatternFromPattern(pattern);
 			provider = this.findConfigProvider(this.resolveTokenFromName(name));
 		}
-		
+
 		if (!provider) {
 			return value;
 		}

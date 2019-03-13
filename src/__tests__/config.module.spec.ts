@@ -25,7 +25,6 @@ describe('ConfigModule.forRoot', async () => {
     }).compile();
 
     const provider = module.get(ConfigService);
-    // console.log('provc', module);
 
     expect(provider).toBeInstanceOf(ConfigService);
   });
@@ -42,5 +41,20 @@ describe('ConfigModule.forRoot', async () => {
     const provider = module.get(ConfigService);
 
     expect(provider.get('test')).toBe(true);
+  });
+
+  it('Should be able to define provider', async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      imports: [
+        ConfigModule.forRoot({
+          __provide: 'testings',
+          test: true,
+        }),
+      ],
+    }).compile();
+
+    const provider = module.get(ConfigService);
+
+    expect(provider.get('testings.test')).toBe(true);
   });
 });
