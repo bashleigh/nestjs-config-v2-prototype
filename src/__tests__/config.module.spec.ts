@@ -50,7 +50,7 @@ describe('ConfigModule.forRoot', async () => {
       constructor(@InjectConfig() private readonly config: Config) {}
 
       getConfig() {
-        return this.config.get<string>('test');
+        return this.config.get<boolean>('test');
       }
     }
 
@@ -88,7 +88,7 @@ describe('ConfigModule.forRoot', async () => {
       constructor(@InjectConfig('testings') private readonly config: Config) {}
 
       getConfig() {
-        return this.config.get<string>('test');
+        return this.config.get<boolean>('test');
       }
     }
 
