@@ -8,6 +8,8 @@ import * as assert from 'assert';
 import { Config } from './config';
 import * as get from 'lodash.get';
 import { TOKEN_PREFIX } from './constsants';
+import * as dotenv from 'dotenv';
+import { DotenvConfigOptions } from 'dotenv';
 
 @Injectable()
 export class ConfigService {
@@ -15,8 +17,15 @@ export class ConfigService {
 	protected static rootPath?: string;
 	protected static tokenReferences: {[s: string]: string} = {};
 	protected static mode: 'sync' | 'async' = 'sync';
+	protected static dotenvOptions = {
+
+	};
 
 	constructor(private readonly moduleRef: ModuleRef) {}
+
+	public static loadDotEnv(options?: DotenvConfigOptions | false): void {
+		if (options !== false) dotenv.load(options || this.dotenvOptions);
+	}
 
 	public static root(dir: string = ''): string {
 		const rootPath =

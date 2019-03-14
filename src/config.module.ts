@@ -2,6 +2,8 @@ import {Module, Global, DynamicModule, Provider} from '@nestjs/common';
 import {ConfigService} from './config.service';
 import { createProvider } from './utils';
 import { ConfigProvider } from './types';
+import { IConfigModuleOptions } from './interfaces';
+import { DotenvConfigOptions } from 'dotenv';
 
 @Global()
 @Module({
@@ -16,8 +18,10 @@ export class ConfigModule {
     return this;
   }
 
-  public static forRoot(config: ConfigProvider): DynamicModule {
+  public static forRoot(config: ConfigProvider, options?: DotenvConfigOptions): DynamicModule {
+		ConfigService.loadDotEnv(options);
 		const providers = [createProvider(config, '')];
+
 		return {
 			module: ConfigModule,
 			providers,
@@ -25,8 +29,9 @@ export class ConfigModule {
 		};
 	}
 
-	public static async forRootAsync(glob: string): Promise<DynamicModule> {
-		const providers: Provider[] = await ConfigService.createProviders(glob);
+	public static async forRootAsync(options: string | IConfigModuleOptions): Promise<DynamicModule> {
+		ConfigService.loadDotEnv(typeof options === 'object' ? options.dotenv : undefined);
+		const providers: Provider[] = await ConfigService.createProviders(typeof options === 'object' ? options.glob : options);
 
 		return {
 			module: ConfigModule,
