@@ -184,14 +184,14 @@ export class ExampleProvider {
 
 - [x] forRoot method
 - [ ] merging for modules
-- [ ] dotenv loading
+- [x] dotenv loading
 - [x] resolveRootPath
 - [ ] documentation comments
 - [ ] throw exception on no default export from file? Or consider what to do if multiple exports
 - [ ] validating config types etc
 - [x] add configService back into configModule and resolve names with references of their token 
 - [ ] add rename method etc (do I still need this with __name || __provide?)
-- [ ] add configModuleOptions back in
+- [x] add configModuleOptions back in
 - [ ] attempt static property setting with decorator
 - [ ] attempt better parameter decorator setter
 - [ ] consider replacing loadash.get with ts-get
