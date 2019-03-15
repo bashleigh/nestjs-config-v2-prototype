@@ -183,16 +183,17 @@ export class ExampleProvider {
 ## TODO
 
 - [x] forRoot method
-- [ ] merging for modules
+- [x] ~~merging for modules~~ (Might as well use comfigModule.forRootAsync?)
 - [x] dotenv loading
 - [x] resolveRootPath
 - [ ] documentation comments
 - [ ] throw exception on no default export from file? Or consider what to do if multiple exports
 - [ ] throw exception on no defined config provider
-- [ ] validating config types etc
+- [ ] validating config types etc with different package/drivers
 - [x] add configService back into configModule and resolve names with references of their token 
-- ~~[ ] add rename method etc (do I still need this with __name || __provide?)~~
+- [x] ~~add rename method etc (do I still need this with __name || __provide?)~~
 - [x] add configModuleOptions back in
-- [ ] attempt static property setting with decorator
-- [ ] attempt better parameter decorator setter
+- [x] ~~attempt static property setting with decorator~~ don't need it 
+- [x] ~~attempt better parameter decorator setter~~ don't need it 
 - [ ] consider replacing loadash.get with ts-get
+- [ ] make sure injection via type works correctly
