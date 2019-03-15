@@ -20,7 +20,7 @@ export class ConfigModule {
 
   public static forRoot(config: ConfigProvider, options?: DotenvConfigOptions): DynamicModule {
 		ConfigService.loadDotEnv(options);
-		const providers = [createProvider(config, '')];
+		const providers = [createProvider(config, ''), ConfigService];
 
 		return {
 			module: ConfigModule,
@@ -32,6 +32,7 @@ export class ConfigModule {
 	public static async forRootAsync(options: string | IConfigModuleOptions): Promise<DynamicModule> {
 		ConfigService.loadDotEnv(typeof options === 'object' ? options.dotenv : undefined);
 		const providers: Provider[] = await ConfigService.createProviders(typeof options === 'object' ? options.glob : options);
+		providers.push(ConfigService);
 
 		return {
 			module: ConfigModule,
