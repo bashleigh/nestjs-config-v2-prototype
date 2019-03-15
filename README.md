@@ -180,6 +180,15 @@ export class ExampleProvider {
 }
 ```
 
+## Merge 
+
+Merge has been remove in v2, the prefered method is to use `ConfigModule.forRootAsync` in your module.
+
+## Renaming method
+
+The renaming method has been removed as of v2. The perfered method now is to define your name/provide token using the `__name` or `__provide` keys defined in `DefinedConfigProvider`.
+
+
 ## TODO
 
 - [x] forRoot method
