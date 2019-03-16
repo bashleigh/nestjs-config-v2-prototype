@@ -43,6 +43,7 @@
     "test": "jest",
     "coverage": "jest --coverage",
     "test:watch": "jest --watch",
-    "prettier": "prettier **/**/*.ts --ignore-path ./.prettierignore --write && git status"
+    "prettier": "prettier **/**/*.ts --ignore-path ./.prettierignore --write && git status",
+    "build": "rm -rf dist && tsc -p ."
   }
 }
