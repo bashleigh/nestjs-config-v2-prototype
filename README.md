@@ -206,3 +206,4 @@ The renaming method has been removed as of v2. The perfered method now is to def
 - [x] ~~attempt better parameter decorator setter~~ don't need it 
 - [ ] consider replacing loadash.get with ts-get
 - [ ] make sure injection via type works correctly
+- [ ] make a 'toString' or 'toObject' method for when calling as `config` as the tokens would require `useFactory: (config: Config) => config.config)` bit annoying. Maybe just define to Config instead of Config.config 
