@@ -10,6 +10,7 @@ import * as get from 'lodash.get';
 import { TOKEN_PREFIX } from './constsants';
 import * as dotenv from 'dotenv';
 import { DotenvConfigOptions } from 'dotenv';
+import { UnkownConfigProvider } from './exceptions';
 
 @Injectable()
 export class ConfigService {
@@ -124,8 +125,14 @@ export class ConfigService {
 	/**
 	 * @param name 
 	 */
-	protected resolveTokenFromName(name: string): string | null {
-		return Object.keys(ConfigService.tokenReferences).includes(name) ? ConfigService.tokenReferences[name] : null;
+	protected resolveTokenFromName(name: string): string {
+		const token = Object.keys(ConfigService.tokenReferences).includes(name) ? ConfigService.tokenReferences[name] : null;
+console.log('token', token);
+		if (token === null) {
+			throw new UnkownConfigProvider(name);
+		}
+
+		return token;
 	}
 
 	/**

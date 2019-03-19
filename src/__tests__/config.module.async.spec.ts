@@ -5,6 +5,8 @@ import TestConfigClass from './__stubs__/config/test';
 import { configToken } from './../index';
 import { Config } from '../config';
 import { InjectConfig } from '../decorators';
+import { UnkownConfigProvider } from '../exceptions';
+import {ConfigService} from '../config.service';
 
 describe('ConfigModule.forRootAsync', () => {
   it('can instance', async () => {
@@ -110,6 +112,23 @@ describe('ConfigModule.forRootAsync', () => {
     }).compile();
 
     expect(module.get(TestClass).getConfig()).toBe('hello');
+  });
+
+  it('Throw exception when config provider doesn\'t exist', async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      imports: [
+        ConfigModule.forRootAsync(path.resolve(__dirname, '__stubs__', 'config', '**/!(*.d).{ts,js}')),
+      ],
+    }).compile();
+    let result;
+
+    try {
+      module.get(ConfigService).get('doesnotexist')
+    } catch (e) {
+      result = e;
+    }
+
+    expect(result).toBeInstanceOf(UnkownConfigProvider);
   });
 
   // TODO figure out why this doesn't pass?

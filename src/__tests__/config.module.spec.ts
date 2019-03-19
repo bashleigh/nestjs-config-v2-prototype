@@ -3,8 +3,6 @@ import { ConfigModule } from './../index';
 import { ConfigService } from '../config.service';
 import { InjectConfig } from '../decorators';
 import { Config } from '../config';
-import { configToken } from '../utils';
-import * as path from 'path';
 
 describe('ConfigModule.forRoot', () => {
   it('can instance', async () => {
