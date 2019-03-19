@@ -8,7 +8,12 @@ describe('Can load with envs with async', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         ConfigModule.forRootAsync({
-          glob: path.resolve(__dirname, '__stubs__', 'config', '**/!(*.d).{ts,js}'),
+          glob: path.resolve(
+            __dirname,
+            '__stubs__',
+            'config',
+            '**/!(*.d).{ts,js}',
+          ),
           dotenv: {
             path: path.resolve(__dirname, '__stubs__', '.env'),
           },
@@ -22,12 +27,15 @@ describe('Can load with envs with async', () => {
   it('Can load envs with sync', async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        ConfigModule.forRoot({
-          __provide: 'testings',
-          port: parseInt(process.env.PORT),
-        }, {
-          path: path.resolve(__dirname, '__stubs__', '.env'),
-        }),
+        ConfigModule.forRoot(
+          {
+            __provide: 'testings',
+            port: parseInt(process.env.PORT),
+          },
+          {
+            path: path.resolve(__dirname, '__stubs__', '.env'),
+          },
+        ),
       ],
     }).compile();
 

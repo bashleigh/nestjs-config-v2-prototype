@@ -17,22 +17,32 @@ export class ConfigService {
 	protected static rootPath?: string;
 	protected static tokenReferences: {[s: string]: string} = {};
 	protected static mode: 'sync' | 'async' = 'sync';
-	protected static dotenvOptions = {
+	protected static dotenvOptions = {};
 
-	};
-
+	/**
+	 * @param moduleRef 
+	 */
 	constructor(private readonly moduleRef: ModuleRef) {}
 
+	/**
+	 * @param options 
+	 */
 	public static loadDotEnv(options?: DotenvConfigOptions | false): void {
 		if (options !== false) dotenv.load(options || this.dotenvOptions);
 	}
 
+	/**
+	 * @param dir 
+	 */
 	public static root(dir: string = ''): string {
 		const rootPath =
       this.rootPath || path.resolve(process.cwd());
     return path.resolve(rootPath, dir);
 	}
 
+	/**
+	 * @param dir 
+	 */
 	public static resolveRootPath(dir: string): typeof ConfigService {
 		assert.ok(
       path.isAbsolute(dir),
@@ -55,6 +65,9 @@ export class ConfigService {
 		return this;
 	}
 
+	/**
+	 * @param glob 
+	 */
   public static async getConfigFiles(glob: string): Promise<string[]> {
 		return new Promise((resolve, rejects) => {
 			new Glob(glob, {
@@ -69,6 +82,9 @@ export class ConfigService {
 		});
 	}
 
+	/**
+	 * @param glob 
+	 */
 	public static async createProviders(glob: string): Promise<Provider[]> {
 		ConfigService.mode = 'async';
 		const files = await this.getConfigFiles(glob);
@@ -81,6 +97,9 @@ export class ConfigService {
 		return providers;
 	}
 
+	/**
+	 * @param file 
+	 */
 	public static loadFile(file: string): Provider {
 		const required = require(file);
 		const provider = createProvider(required.default, file);
@@ -95,24 +114,41 @@ export class ConfigService {
 		return provider;
 	}
 
+	/**
+	 * @param token 
+	 */
 	protected findConfigProvider(token: string): ConfigProvider | null {
 		return this.moduleRef.get(token);
 	}
 
+	/**
+	 * @param name 
+	 */
 	protected resolveTokenFromName(name: string): string | null {
 		return Object.keys(ConfigService.tokenReferences).includes(name) ? ConfigService.tokenReferences[name] : null;
 	}
 
+	/**
+	 * @param name 
+	 * @param token 
+	 */
 	protected static setReference(name: string, token: string): typeof ConfigService {
 		ConfigService.tokenReferences[name] = token;
 		return this;
 	}
 
+	/**
+	 * @param pattern
+	 */
 	protected getNameAndAshPatternFromPattern(pattern: string): [string, string] {
 		const parts = pattern.split('.');
 		return [parts.shift(), parts.join('.')];
 	}
 
+	/**
+	 * @param pattern 
+	 * @param value 
+	 */
 	public get<T>(pattern: string, value: any = undefined): T | undefined {
 
 		let provider: ConfigProvider | null;

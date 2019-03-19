@@ -44,9 +44,10 @@ describe('ConfigModule.forRootAsync', () => {
   });
 
   it('Should be able to inject defined config', async () => {
-
     class TestClass {
-      constructor(@InjectConfig('set_by_manual') private readonly config: Config) {}
+      constructor(
+        @InjectConfig('set_by_manual') private readonly config: Config,
+      ) {}
 
       getConfig() {
         return this.config.get<number>('test');
@@ -59,18 +60,17 @@ describe('ConfigModule.forRootAsync', () => {
           path.resolve(__dirname, '__stubs__', 'config', '**/!(*.d).{ts,js}'),
         ),
       ],
-      providers: [
-        TestClass,
-      ],
+      providers: [TestClass],
     }).compile();
 
     expect(module.get(TestClass).getConfig()).toBe(3000);
   });
 
   it('Should be able to inject file named config', async () => {
-
     class TestClass {
-      constructor(@InjectConfig('file_named') private readonly config: Config) {}
+      constructor(
+        @InjectConfig('file_named') private readonly config: Config,
+      ) {}
 
       getConfig() {
         return this.config.get<string>('test');
@@ -83,18 +83,17 @@ describe('ConfigModule.forRootAsync', () => {
           path.resolve(__dirname, '__stubs__', 'config', '**/!(*.d).{ts,js}'),
         ),
       ],
-      providers: [
-        TestClass,
-      ],
+      providers: [TestClass],
     }).compile();
 
     expect(module.get(TestClass).getConfig()).toBe('hello again');
   });
 
   it('Should be able to inject __provide over __name config', async () => {
-
     class TestClass {
-      constructor(@InjectConfig('testy_test') private readonly config: Config) {}
+      constructor(
+        @InjectConfig('testy_test') private readonly config: Config,
+      ) {}
 
       getConfig() {
         return this.config.get<string>('test');
@@ -107,9 +106,7 @@ describe('ConfigModule.forRootAsync', () => {
           path.resolve(__dirname, '__stubs__', 'config', '**/!(*.d).{ts,js}'),
         ),
       ],
-      providers: [
-        TestClass,
-      ],
+      providers: [TestClass],
     }).compile();
 
     expect(module.get(TestClass).getConfig()).toBe('hello');

@@ -47,9 +47,10 @@ describe('ConfigModule.forRoot', () => {
   });
 
   it('ConfigService can inject with decorator', async () => {
-
     class TestClass {
-      constructor(@InjectConfigService() private readonly configService: ConfigService) {}
+      constructor(
+        @InjectConfigService() private readonly configService: ConfigService,
+      ) {}
 
       getConfig() {
         return this.configService;
@@ -62,9 +63,7 @@ describe('ConfigModule.forRoot', () => {
           path.resolve(__dirname, '__stubs__', 'config', '**/!(*.d).{ts,js}'),
         ),
       ],
-      providers: [
-        TestClass,
-      ],
+      providers: [TestClass],
     }).compile();
 
     const service = module.get(TestClass);
@@ -73,9 +72,10 @@ describe('ConfigModule.forRoot', () => {
   });
 
   it('ConfigService can inject with decorator with sync', async () => {
-
     class TestClass {
-      constructor(@InjectConfigService() private readonly configService: ConfigService) {}
+      constructor(
+        @InjectConfigService() private readonly configService: ConfigService,
+      ) {}
 
       getConfig() {
         return this.configService;
@@ -83,12 +83,8 @@ describe('ConfigModule.forRoot', () => {
     }
 
     const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        ConfigModule.forRoot({}),
-      ],
-      providers: [
-        TestClass,
-      ],
+      imports: [ConfigModule.forRoot({})],
+      providers: [TestClass],
     }).compile();
 
     const service = module.get(TestClass);

@@ -12,12 +12,19 @@ import { DotenvConfigOptions } from 'dotenv';
   ],
 })
 export class ConfigModule {
-  
+	
+	/**
+	 * @param path 
+	 */
   public static resolveRootPath(path: string): ConfigModule {
     ConfigService.resolveRootPath(path);
     return this;
   }
 
+	/**
+	 * @param config 
+	 * @param options 
+	 */
   public static forRoot(config: ConfigProvider, options?: DotenvConfigOptions): DynamicModule {
 		ConfigService.loadDotEnv(options);
 		const providers = [createProvider(config, ''), ConfigService];
@@ -29,6 +36,9 @@ export class ConfigModule {
 		};
 	}
 
+	/**
+	 * @param options 
+	 */
 	public static async forRootAsync(options: string | IConfigModuleOptions): Promise<DynamicModule> {
 		ConfigService.loadDotEnv(typeof options === 'object' ? options.dotenv : undefined);
 		const providers: Provider[] = await ConfigService.createProviders(typeof options === 'object' ? options.glob : options);

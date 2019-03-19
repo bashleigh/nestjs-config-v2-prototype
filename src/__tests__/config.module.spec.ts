@@ -62,9 +62,7 @@ describe('ConfigModule.forRoot', () => {
           test: true,
         }),
       ],
-      providers: [
-        TestClass,
-      ],
+      providers: [TestClass],
     }).compile();
 
     expect(module.get(TestClass).getConfig()).toBe(true);
@@ -101,9 +99,7 @@ describe('ConfigModule.forRoot', () => {
           test: true,
         }),
       ],
-      providers: [
-        TestClass,
-      ],
+      providers: [TestClass],
     }).compile();
 
     expect(module.get(TestClass).getConfig()).toBe(true);
