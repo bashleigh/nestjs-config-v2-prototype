@@ -203,9 +203,10 @@ The renaming method has been removed as of v2. The perfered method now is to def
 - [x] ~~merging for modules~~ (Might as well use comfigModule.forRootAsync?)
 - [x] dotenv loading
 - [x] resolveRootPath
-- [ ] documentation comments
+- [x] documentation comments
 - [ ] throw exception on no default export from file? Or consider what to do if multiple exports
 - [ ] throw exception on no defined config provider
+- [x] throw exception when no reference token is found
 - [ ] validating config types etc with different package/drivers
 - [x] add configService back into configModule and resolve names with references of their token 
 - [x] ~~add rename method etc (do I still need this with __name || __provide?)~~
@@ -213,5 +214,5 @@ The renaming method has been removed as of v2. The perfered method now is to def
 - [x] ~~attempt static property setting with decorator~~ don't need it 
 - [x] ~~attempt better parameter decorator setter~~ don't need it 
 - [ ] consider replacing loadash.get with ts-get
-- [ ] make sure injection via type works correctly
-- [ ] make a 'toString' or 'toObject' method for when calling as `config` as the tokens would require `useFactory: (config: Config) => config.config)` bit annoying. Maybe just define to Config instead of Config.config 
+- [x] ~~make sure injection via type works correctly~~ Won't work because the token doesn't exist before injectable is instanced
+- [x] make a 'toString' or 'toObject' method for when calling as `config` as the tokens would require `useFactory: (config: Config) => config.config)` bit annoying. Maybe just define to Config instead of Config.config 
