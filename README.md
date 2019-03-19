@@ -63,20 +63,28 @@ export default class MyConfigClass {
 ```
 
 ```typescript
+
+@Module({
+  imports: [
+    ConfigModule.forRootAsync(path.resolve(__dirname, 'config', '**', '*(!.d).{ts,js}')),
+    SomeModle.forRootAsync({
+      useFactory: (conifg: MyConfigClass) => config,
+      inject: [MyConfigClass],
+    }),
+  ],
+})
+export class ExampleModule {}
+```
+
+The below will not work as ConfigProviders are created asynchronously via the ConfigModule.
+
+```typescript
 import { MyConfigClass } from './config/my.config.class';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ExampleProvider {
   constructor(private readonly config: MyConfigClass) {}
-
-  someMethod(): string {
-    return this.config.test;
-  }
-
-  getConfig(): MyConfigClass {
-    return this.config;
-  }
 }
 ```
 
