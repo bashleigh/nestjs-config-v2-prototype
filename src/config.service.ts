@@ -127,7 +127,6 @@ export class ConfigService {
 	 */
 	protected resolveTokenFromName(name: string): string {
 		const token = Object.keys(ConfigService.tokenReferences).includes(name) ? ConfigService.tokenReferences[name] : null;
-console.log('token', token);
 		if (token === null) {
 			throw new UnkownConfigProvider(name);
 		}
